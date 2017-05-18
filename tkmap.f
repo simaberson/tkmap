@@ -2287,7 +2287,7 @@ C
 C     --------------------------------------
       SUBROUTINE CITY(IOPT,STRING,RLAT,RLON)
 C     --------------------------------------
-      PARAMETER (NC = 36)
+      PARAMETER (NC = 37)
       CHARACTER*30 STRING
       CHARACTER*30 NAMES(NC)
       DIMENSION XPOS(2,NC)
@@ -2327,7 +2327,8 @@ C
      *            'WALLOPS                       ',
      *            'LA PAZ                        ',
      *            'LIBERIA                       ',
-     *            'ANCHORAGE                     '/
+     *            'ANCHORAGE                     ',
+     *            'LAKELAND                      '/
 C
       DATA XPOS  /27.85, 82.52,
      *            25.91, 80.28,
@@ -2364,7 +2365,8 @@ C
      *            37.93, 75.48,
      *            24.07,110.36,
      *            10.59, 85.54,
-     *            61.18,150.00/
+     *            61.18,150.00,
+     *            27.99, 82.02/
 C
       IF (IOPT.EQ.0) THEN
          DO 100 L = 1,NC
