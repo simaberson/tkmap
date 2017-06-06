@@ -6,7 +6,8 @@ A few items are required to run tkmap:
 2.  tkmap.sh.  This script runs tkmap and creates all the necessary output.  You must modify the last line of this script to point to GrADS.
 3.  An executable for tkmap (xtkmap).  If you are on a mac, you can download this executable directly.  Otherwise, you must compile the code (tkmap.f) using a fortran compiler to create the xtkmap file (example:  gfortran -o xtkmap tkmap.f).
 4.  plotdrops.gs.  This is a GrADS script that will plot the flight track.
-5.  Four files that allow GrADS to run (ens.ctl, ensc0.t00z.pgrbf00, ensc0.t00z.pgrbf00.gmp, ensc0.t00z.pgrbf00.idx).                                                       
+5.  Four files that allow GrADS to run (ens.ctl, ensc0.t00z.pgrbf00, ensc0.t00z.pgrbf00.gmp, ensc0.t00z.pgrbf00.idx).
+6.  Three files for plotting the locations of RAOB observations (stnlist00, stnlist12, stnlist0012).                                                    
 
 Running:
 
