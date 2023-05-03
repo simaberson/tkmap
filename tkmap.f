@@ -92,7 +92,7 @@ C2345678911234567892123456789312345678941234567895123456789612345678971X34567890
 C
       TEE='T'
       LUT = 8
-      lup = 9  ! pal
+      LUP = 9  ! pal
       LUFO = 7
       LUFI = 14 
       deg2rad=3.1415927/180.  ! pal
@@ -106,23 +106,24 @@ C     Get track file name, reset variables
 C     ------------------------------------
 C2345678911234567892123456789312345678941234567895123456789612345678971X34567890
       OPEN(LUFI,FILE=FNAME,STATUS='OLD',ERR=9010) 
-      WRITE(1, '(1X, A12)') FNAME
+C     WRITE(1, '(1X, A12)') FNAME
       WRITE(FILEOUT,'("turns",I1.1,".txt")') IFILE
       OPEN(LUFO,FILE=FILEOUT,STATUS='UNKNOWN',ERR=9011)
       WRITE(FILEOUTD,'("drops",I1.1,".txt")') IFILE
       OPEN(LUT,FILE=FILEOUTD,STATUS='UNKNOWN',ERR=9012)
       WRITE(FNAMEP,'("points",I1.1)') IFILE
-      OPEN(lup, FILE = fnamep, STATUS = 'UNKNOWN', ERR = 9013)
+      OPEN(LUP,FILE=FNAMEP,STATUS='UNKNOWN',ERR=9013)
       WRITE(FNAMEHUR,'("hurrloc",I1.1)') IFILE
       OPEN(UNIT=72,FILE=FNAMEHUR,STATUS='UNKNOWN',ERR=9014)
 C
-      DO 5 L = 1,MPTS
-5        FLAG(L) = ' '
+      DO L = 1,MPTS
+        FLAG(L) = ' '
+      END DO
 C
 C     Read header line
 C     ----------------
       READ(LUFI,'(I2,1X,8A,1X,A20)') IAC,TAKEOFF,STMNAME
-      WRITE(1, '(I2, 1X, 8A, 1X, A20)') iac, takeoff, stmname  ! pal
+C     WRITE(1, '(I2, 1X, 8A, 1X, A20)') iac, takeoff, stmname  ! pal
       IALT1 = 0
       IALT2 = 0
       IF (IAC.EQ.42 .OR. IAC.EQ.43) THEN
@@ -159,10 +160,10 @@ c
       if (iac.eq.51)then
         globalhawk = .true.  ! pal boolean for non-included drops to turns.
         DO IJK=1,MPTS
-          SPEED(IJK) = 350.
+          SPEED(IJK) = 440.
         END DO
         ialt1 = 18
-        ialt2 = 25
+        ialt2 = 38
       endif
 c
 c     52 is Global Hawk
@@ -212,7 +213,7 @@ C
       IF (TYPE(I).EQ.'E' .OR. TYPE(I).EQ.'F') FLAG(I)='E'
       IF (TYPE(I).EQ.'I') THEN
         READ(STRING,*) INSERT,ALT
-        WRITE(1, '("I", I2, 1X, F7.1)') insert, alt  ! pal 
+C       WRITE(1, '("I", I2, 1X, F7.1)') insert, alt  ! pal 
         do ijk=i,i+insert
           IF((IAC.EQ.42.OR.IAC.EQ.43.OR.IAC.EQ.57).AND.I.GT.3)
      1       CALL GETSPEED(IAC,ALT,SPEED(ijk))
@@ -240,7 +241,6 @@ C
         SLAT = RLAT(I)
         SLON = -RLON(I)
         write(72,*)slat,slon
-        write(6,*)' slat,slon=',slat,slon
         close(72)
         goto 100
       ENDIF
@@ -249,7 +249,7 @@ C     Position input is a name or stmrel position
 C     -------------------------------------------
 120   IF (TYPE(I).EQ.'S') THEN
          READ(STRING(1:20),*) RDIS,THETA,ALT
-         WRITE(1, '("S", 3(F6.0, 1X))') rdis, theta, alt  ! pal
+C        WRITE(1, '("S", 3(F6.0, 1X))') rdis, theta, alt  ! pal
          IF((IAC.EQ.42.OR.IAC.EQ.43.OR.IAC.EQ.57).AND.I.GT.3)
      1      CALL GETSPEED(IAC,ALT,SPEED(I))
          RDIS = RDIS*111.1/60.
@@ -266,7 +266,7 @@ C     -------------------------------------------
       ENDIF
       IF (TYPE(I).EQ.'A'.OR.TYPE(I).EQ.'Z')THEN
          CALL CITY(0,STRING,RLAT(I),RLON(I))
-         WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
+C        WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
          IF (RLAT(I).EQ.-99.) GOTO 900
          SRRAD(I) = -99.
          NS = NS+1
@@ -291,7 +291,7 @@ C     -------------------------------------------
          goto 100
       ELSE
          READ(STRING,*,ERR=120) RLAT(I),RLON(I),ALT
-         WRITE(1, '(3(F8.2, 1X))') rlat(i), rlon(i), alt  ! pal
+C        WRITE(1, '(3(F8.2, 1X))') rlat(i), rlon(i), alt  ! pal
          IF((IAC.EQ.42.OR.IAC.EQ.43.OR.IAC.EQ.57).AND.I.GT.3)
      1     CALL GETSPEED(IAC,ALT,SPEED(I))
          IF(insert.eq.0) goto 100
@@ -326,7 +326,7 @@ C
 C
       IF (I.GT.100) STOP '100'
       IF (TYPE(I).NE.'Z') GOTO 100
-      WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
+C     WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
 C 
       NT = I
 C 
@@ -341,7 +341,7 @@ C
       TTYP = 'TRACK DISTANCE TABLE'
       NT = I
       WRITE(LUFO,901) STMNAME,FNAME,IAC,TAKEOFF,TTYP
-      WRITE(1, 901) stmname, fname, iac, takeoff, ttyp  ! pal
+c     WRITE(1, 901) stmname, fname, iac, takeoff, ttyp  ! pal
       WRITE(LUFO,902)
       WRITE(LUFO,903)
       WRITE(LUFO,904)
@@ -443,7 +443,7 @@ c         calculate aircraft location in relation to storm
               ipm=itm
               ipset=.false.
             endif
-            WRITE(lup, 501) rlat(j), rlon(j)  ! output to points file
+            WRITE(LUP, 501) rlat(j), rlon(j)  ! output to points file
             IF (.NOT. globalhawk)
      +        WRITE(lufo, 161) lturn, flag(j), lad, lam, lod, lom,
      +          dlegout, subtotal, ith, itm
@@ -516,7 +516,9 @@ c              lturn = lturn + 1  ! pal commented out to not count SR inserts as
               ipm=itm
               ipset=.false.
             endif
-            WRITE(lup, 501) rlat(j), rlon(j)  ! output to points file
+            write(6,*)' 1, i, type(i)=',i,type(i)
+            write(6,501) rlat(j), rlon(j)
+            WRITE(LUP, 501, err=9013) rlat(j), rlon(j)  ! output to points file
             IF (.NOT. globalhawk)
      +        WRITE(lufo, 161) lturn, flag(j), lad, lam, lod, lom,
      +          dlegout, subtotal, ith, itm
@@ -561,8 +563,10 @@ c              lturn = lturn + 1  ! pal commented out to not count SR inserts as
       DO 155 L = 1,NS
         IF (IPOS(L).EQ.I) IX = L
 155   CONTINUE
-      if(type(i).ne.'T')write(lup,501)rlat(i),rlon(i)
-      if(type(i).eq.'T')write(lup,500)rlat(i),rlon(i),TEE
+      write(6,*)' 2, i, type(i)=',i,'/',type(i),'/'
+      write(6,501) rlat(j), rlon(j)
+      if(type(i).ne.'T')write(LUP,501,err=9013)rlat(i),rlon(i)
+      if(type(i).eq.'T')write(LUP,500,err=9013)rlat(i),rlon(i),TEE
       if((lturn.eq.1 .OR. ldrop.eq.1) .AND. ipset) then  !  jpd changed from “2” to “1” to set IP as waypoint #1
         iph=ith
         ipm=itm
@@ -791,8 +795,9 @@ C
       HRZZ=0.0
 C 
       IF (IMZZ.EQ.1) GOTO 100 
-      DO 10 I=IMZZ,12 
-10    DHR=DHR+FLOAT(MODA(I)*24) 
+      DO  I=IMZZ,12 
+        DHR=DHR+FLOAT(MODA(I)*24) 
+      END DO
       IMZZ=1
 C 
 100   IF (IMZZ.EQ.IMX) GOTO 200 
@@ -801,8 +806,9 @@ C
 C 
       IF (IMZZ1 .GE. IMX) GOTO 120
       IMX1=IMX-1
-      DO 110 I=IMZZ1,IMX1 
-110   DHR=DHR+FLOAT(MODA(I)*24) 
+      DO I=IMZZ1,IMX1 
+        DHR=DHR+FLOAT(MODA(I)*24) 
+      END DO
 C 
 120   IMZZ=IMZZ1
       IDZZ=1
@@ -899,10 +905,12 @@ C
       WFSUM=WFSUM+WTO 
       WTO=WTO/WFSUM 
 C 
-      DO 25 N=1,MTRM
-25            WT(N)=WT(N)/WFSUM 
-              DO 30 N=1,MTRM
-30                  SUM=SUM+(GIN(L-N)+GIN(L+N))*WT(N) 
+      DO N=1,MTRM
+        WT(N)=WT(N)/WFSUM 
+      END DO
+      DO N=1,MTRM
+        SUM=SUM+(GIN(L-N)+GIN(L+N))*WT(N) 
+      END DO
               GOUT(L)=SUM+GIN(L)*WTO    
 40            CONTINUE
       RETURN
@@ -2287,7 +2295,7 @@ C
 C     --------------------------------------
       SUBROUTINE CITY(IOPT,STRING,RLAT,RLON)
 C     --------------------------------------
-      PARAMETER (NC = 37)
+      PARAMETER (NC = 41)
       CHARACTER*30 STRING
       CHARACTER*30 NAMES(NC)
       DIMENSION XPOS(2,NC)
@@ -2328,6 +2336,10 @@ C
      *            'LA PAZ                        ',
      *            'LIBERIA                       ',
      *            'ANCHORAGE                     ',
+     *            'ARUBA                         ',
+     *            'SAL                           ',
+     *            'MOBILE                        ',
+     *            'BORINQUEN                     ',
      *            'LAKELAND                      '/
 C
       DATA XPOS  /27.85, 82.52,
@@ -2366,6 +2378,10 @@ C
      *            24.07,110.36,
      *            10.59, 85.54,
      *            61.18,150.00,
+     *            12.50, 70.01,
+     *            16.74, 22.95,
+     *            30.63, 88.07,
+     *            18.50, 67.13,
      *            27.99, 82.02/
 C
       IF (IOPT.EQ.0) THEN
