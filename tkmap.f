@@ -2295,7 +2295,7 @@ C
 C     --------------------------------------
       SUBROUTINE CITY(IOPT,STRING,RLAT,RLON)
 C     --------------------------------------
-      PARAMETER (NC = 41)
+      PARAMETER (NC = 42)
       CHARACTER*30 STRING
       CHARACTER*30 NAMES(NC)
       DIMENSION XPOS(2,NC)
@@ -2340,6 +2340,7 @@ C
      *            'SAL                           ',
      *            'MOBILE                        ',
      *            'BORINQUEN                     ',
+     *            'PRAIA                         ',
      *            'LAKELAND                      '/
 C
       DATA XPOS  /27.85, 82.52,
@@ -2382,6 +2383,7 @@ C
      *            16.74, 22.95,
      *            30.63, 88.07,
      *            18.50, 67.13,
+     *            14.94, 23.49,
      *            27.99, 82.02/
 C
       IF (IOPT.EQ.0) THEN
