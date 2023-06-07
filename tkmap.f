@@ -106,7 +106,7 @@ C     Get track file name, reset variables
 C     ------------------------------------
 C2345678911234567892123456789312345678941234567895123456789612345678971X34567890
       OPEN(LUFI,FILE=FNAME,STATUS='OLD',ERR=9010) 
-C     WRITE(1, '(1X, A12)') FNAME
+      WRITE(1, '(1X, A12)') FNAME
       WRITE(FILEOUT,'("turns",I1.1,".txt")') IFILE
       OPEN(LUFO,FILE=FILEOUT,STATUS='UNKNOWN',ERR=9011)
       WRITE(FILEOUTD,'("drops",I1.1,".txt")') IFILE
@@ -123,7 +123,7 @@ C
 C     Read header line
 C     ----------------
       READ(LUFI,'(I2,1X,8A,1X,A20)') IAC,TAKEOFF,STMNAME
-C     WRITE(1, '(I2, 1X, 8A, 1X, A20)') iac, takeoff, stmname  ! pal
+      WRITE(1, '(I2, 1X, 8A, 1X, A20)') iac, takeoff, stmname  ! pal
       IALT1 = 0
       IALT2 = 0
       IF (IAC.EQ.42 .OR. IAC.EQ.43) THEN
@@ -213,7 +213,7 @@ C
       IF (TYPE(I).EQ.'E' .OR. TYPE(I).EQ.'F') FLAG(I)='E'
       IF (TYPE(I).EQ.'I') THEN
         READ(STRING,*) INSERT,ALT
-C       WRITE(1, '("I", I2, 1X, F7.1)') insert, alt  ! pal 
+        WRITE(1, '("I", I2, 1X, F7.1)') insert, alt  ! pal 
         do ijk=i,i+insert
           IF((IAC.EQ.42.OR.IAC.EQ.43.OR.IAC.EQ.57).AND.I.GT.3)
      1       CALL GETSPEED(IAC,ALT,SPEED(ijk))
@@ -249,7 +249,7 @@ C     Position input is a name or stmrel position
 C     -------------------------------------------
 120   IF (TYPE(I).EQ.'S') THEN
          READ(STRING(1:20),*) RDIS,THETA,ALT
-C        WRITE(1, '("S", 3(F6.0, 1X))') rdis, theta, alt  ! pal
+         WRITE(1, '("S", 3(F6.0, 1X))') rdis, theta, alt  ! pal
          IF((IAC.EQ.42.OR.IAC.EQ.43.OR.IAC.EQ.57).AND.I.GT.3)
      1      CALL GETSPEED(IAC,ALT,SPEED(I))
          RDIS = RDIS*111.1/60.
@@ -266,7 +266,7 @@ C        WRITE(1, '("S", 3(F6.0, 1X))') rdis, theta, alt  ! pal
       ENDIF
       IF (TYPE(I).EQ.'A'.OR.TYPE(I).EQ.'Z')THEN
          CALL CITY(0,STRING,RLAT(I),RLON(I))
-C        WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
+         WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
          IF (RLAT(I).EQ.-99.) GOTO 900
          SRRAD(I) = -99.
          NS = NS+1
@@ -291,7 +291,7 @@ C        WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
          goto 100
       ELSE
          READ(STRING,*,ERR=120) RLAT(I),RLON(I),ALT
-C        WRITE(1, '(3(F8.2, 1X))') rlat(i), rlon(i), alt  ! pal
+         WRITE(1, '(3(F8.2, 1X))') rlat(i), rlon(i), alt  ! pal
          IF((IAC.EQ.42.OR.IAC.EQ.43.OR.IAC.EQ.57).AND.I.GT.3)
      1     CALL GETSPEED(IAC,ALT,SPEED(I))
          IF(insert.eq.0) goto 100
@@ -326,7 +326,7 @@ C
 C
       IF (I.GT.100) STOP '100'
       IF (TYPE(I).NE.'Z') GOTO 100
-C     WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
+      WRITE(1, '(A1, 1X, A30)') type(i), string  ! pal
 C 
       NT = I
 C 
@@ -341,7 +341,7 @@ C
       TTYP = 'TRACK DISTANCE TABLE'
       NT = I
       WRITE(LUFO,901) STMNAME,FNAME,IAC,TAKEOFF,TTYP
-c     WRITE(1, 901) stmname, fname, iac, takeoff, ttyp  ! pal
+      WRITE(1, 901) stmname, fname, iac, takeoff, ttyp  ! pal
       WRITE(LUFO,902)
       WRITE(LUFO,903)
       WRITE(LUFO,904)
@@ -564,7 +564,7 @@ c              lturn = lturn + 1  ! pal commented out to not count SR inserts as
         IF (IPOS(L).EQ.I) IX = L
 155   CONTINUE
       write(6,*)' 2, i, type(i)=',i,'/',type(i),'/'
-      write(6,501) rlat(j), rlon(j)
+      write(6,501) rlat(i), rlon(i)
       if(type(i).ne.'T')write(LUP,501,err=9013)rlat(i),rlon(i)
       if(type(i).eq.'T')write(LUP,500,err=9013)rlat(i),rlon(i),TEE
       if((lturn.eq.1 .OR. ldrop.eq.1) .AND. ipset) then  !  jpd changed from “2” to “1” to set IP as waypoint #1
@@ -2295,7 +2295,7 @@ C
 C     --------------------------------------
       SUBROUTINE CITY(IOPT,STRING,RLAT,RLON)
 C     --------------------------------------
-      PARAMETER (NC = 42)
+      PARAMETER (NC = 41)
       CHARACTER*30 STRING
       CHARACTER*30 NAMES(NC)
       DIMENSION XPOS(2,NC)
@@ -2340,7 +2340,6 @@ C
      *            'SAL                           ',
      *            'MOBILE                        ',
      *            'BORINQUEN                     ',
-     *            'PRAIA                         ',
      *            'LAKELAND                      '/
 C
       DATA XPOS  /27.85, 82.52,
@@ -2383,7 +2382,6 @@ C
      *            16.74, 22.95,
      *            30.63, 88.07,
      *            18.50, 67.13,
-     *            14.94, 23.49,
      *            27.99, 82.02/
 C
       IF (IOPT.EQ.0) THEN
