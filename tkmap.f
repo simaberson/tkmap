@@ -563,7 +563,7 @@ c              lturn = lturn + 1  ! pal commented out to not count SR inserts as
       DO 155 L = 1,NS
         IF (IPOS(L).EQ.I) IX = L
 155   CONTINUE
-      write(6,*)' 2, i, type(i)=',i,'/',type(i),'/'
+C     write(6,*)' 2, i, type(i)=',i,'/',type(i),'/'
       write(6,501) rlat(i), rlon(i)
       if(type(i).ne.'T')write(LUP,501,err=9013)rlat(i),rlon(i)
       if(type(i).eq.'T')write(LUP,500,err=9013)rlat(i),rlon(i),TEE
